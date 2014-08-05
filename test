@@ -1,0 +1,5 @@
+this is a test i changed here
+commit under ssh-pub key
+git push origin master another clone
+this is the second line
+now we use ssh remote
