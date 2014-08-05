@@ -2,8 +2,9 @@
   "name": "Hot-Pot",
   "version": "0.0.1",
   "private": true,
+  "main":"rest.js",
   "scripts": {
-      "start": "node rest.js"
+      "start": "node ./bin/www"
   },
   "dependencies": {
       "express": "~4.2.0",
