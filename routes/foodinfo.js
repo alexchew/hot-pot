@@ -79,10 +79,14 @@ exports.put = function(req,res){
 };
 
 exports.get = function(req,res){
-    FoodInfo.findOne(req.params,function (arr,FoodInfos) {
-        res.send(JSON.stringify(FoodInfos));
-    });
-    //res.send(JSON.stringify({'success':true,"operation":"get"}));
+    res.contentType="json";
+    try {
+        FoodInfo.findOne(req.params, function (arr, FoodInfos) {
+            res.send(JSON.stringify(FoodInfos));
+        });
+    }catch(err) {
+        res.send({'success':false,"operation":"get","error":err.message});
+    }
 };
 
 exports.patch = function(req,res){
@@ -150,11 +154,14 @@ exports.put2 = function(req,res){
 
 exports.get2 = function(req,res){
     res.contentType = 'json';
-    FoodInfo.find(req.params,function (arr,items) {
-        if(!items || items.length ==0)
-            res.send({result:0});
-        else
-            res.send(items);
-    });
-   // res.send(JSON.stringify({success:true,operation:"batch get"}));
+    try {
+        FoodInfo.find(req.params, function (arr, items) {
+            if (!items || items.length == 0)
+                res.send({result: 0});
+            else
+                res.send(items);
+        });
+    }catch(err) {
+        res.send({success:false,operation:"batch get",error:err.message});
+    }
 };

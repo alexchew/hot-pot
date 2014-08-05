@@ -44,11 +44,12 @@ server.use(restify.CORS());
 /*
  FoodInfo
  */
-server.get('/foodinfo',foodinfo.get2);//查询
+server.get('/foodinfo',foodinfo.get);//查询
 server.post('/foodinfo', foodinfo.post);//新建
 
 server.get('/', function(req, res) {
-    res.send('It works. Now you can get what you want from the Hot-Pot.Enjoy!');
+    res.contentType = "json";
+    res.send({success:true,message:'It works. Now you can get what you want from the Hot-Pot.Enjoy!'});
 });
 
 server.listen(port ,/*ip_addr,*/ function(){
