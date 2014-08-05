@@ -3,7 +3,7 @@ var log = require('./log');
 var foodinfo = require('./routes/foodinfo');
 
 var ip_addr = '127.0.0.1';
-var port    =  '8090';
+var port    =  '5000';
 
 var server = restify.createServer({
         formatters: {
@@ -47,7 +47,11 @@ server.use(restify.CORS());
 server.get('/foodinfo',foodinfo.get2);//查询
 server.post('/foodinfo', foodinfo.post);//新建
 
-server.listen(port ,ip_addr, function(){
+server.get('/', function(req, res) {
+    res.send('It works. Now you can get what you want from the Hot-Pot.Enjoy!');
+});
+
+server.listen(port ,/*ip_addr,*/ function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
 
