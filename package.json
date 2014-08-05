@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-      "start": "node ./bin/www"
+      "start": "node rest.js"
   },
   "dependencies": {
       "express": "~4.2.0",
@@ -17,7 +17,7 @@
       "jade": "~1.3.0",
       "log4js":"~0.6.16"
   },
-    "engines": {//for heroku
+    "engines": {
         "node": "0.10.x"
     }
 }
