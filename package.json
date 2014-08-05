@@ -1,9 +1,9 @@
 {
-  "name": "Life2",
+  "name": "Hot-Pot",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node rest.js"
   },
   "dependencies": {
       "express": "~4.2.0",
