@@ -4,7 +4,7 @@ var log = require('./log');
 var foodinfo = require('./routes/foodinfo');
 
 var ip_addr = '127.0.0.1';
-var port    =  '5000';
+var port    =  '8090';
 
 var server = restify.createServer({
         formatters: {
@@ -47,7 +47,7 @@ server.use(restify.CORS());
 /*
  FoodInfo
  */
-server.get('/foodinfo',foodinfo.get);//查询
+server.get('/foodinfo',foodinfo.get2);//查询
 server.post('/foodinfo', foodinfo.post);//新建
 
 server.get('/', function(req, res) {
