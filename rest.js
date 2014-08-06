@@ -1,5 +1,5 @@
 var restify = require('restify');
-var favicon = require('static-favicon');
+//var favicon = require('static-favicon');
 var log = require('./log');
 var foodinfo = require('./routes/foodinfo');
 
@@ -26,7 +26,7 @@ var server = restify.createServer({
 //enable log4js
 log.use(server);
 
-server.use(favicon());
+//server.use(favicon());
 
 //server.use(restify.acceptParser(server.acceptable));
 //server.use(restify.jsonp());
