@@ -3,10 +3,11 @@
  */
 var logger = require('../log').logger;
 var mongoose = require('mongoose');
+var connected = false;//no use actually
 
-var conn_string ='mongodb://life2:life2@ds061189.mongolab.com:61189/life2' ;
-//var conn_string ='mongodb://localhost/life2';
-mongoose.connect(conn_string);
+//var conn_string ='mongodb://life2:life2@ds061189.mongolab.com:61189/life2' ;
+var conn_string ='mongodb://localhost/life2';
+mongoose.connect(process.env.MONGO || conn_string);
 
 mongoose.connection.on('open', function (ref) {
     connected=true;
@@ -31,9 +32,7 @@ mongoose.connection.on('close', function (ref) {
 mongoose.connection.on('error', function (err) {
     connected=false;
     logger.debug('error connection to mongo server!');
-    if(err) {
-        logger.error(err);
-    }
+    logger.error(err);
 });
 
 mongoose.connection.db.on('reconnect', function (ref) {
