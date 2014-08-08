@@ -58,6 +58,7 @@ server.get('/', function(req, res) {
 //now start server. for Heroku we cannot use specified PORT. Heroku will pass it through process.env.PORT
 server.listen(process.env.PORT || port ,/*ip_addr,*/ function(){
     console.log('%s listening at %s ', server.name , server.url);
+    console.log('%s listening at %s ', server.name , process.env.PORT || port);
 });
 
 

@@ -6,11 +6,12 @@ var mongoose = require('mongoose');
 var connected = false;//no use actually
 
 //var conn_string ='mongodb://life2:life2@ds061189.mongolab.com:61189/life2' ;
-var conn_string ='mongodb://localhost/life2';
+var conn_string ='mongodb://localhost/hotpot';
 mongoose.connect(process.env.MONGO || conn_string);
 
 mongoose.connection.on('open', function (ref) {
     connected=true;
+    console.log('mongo url is %s ', process.env.MONGO || conn_string);
     logger.debug('open connection to mongo server.');
 });
 
