@@ -4,7 +4,7 @@ var log = require('./log');
 var foodinfo = require('./routes/foodinfo');
 
 var ip_addr = '127.0.0.1';
-var port    =  '8090';
+var port    =  '8080';
 
 var server = restify.createServer({
         formatters: {
@@ -27,7 +27,7 @@ var server = restify.createServer({
 log.use(server);
 
 //server.use(favicon());
-
+server.pre(restify.pre.sanitizePath());
 //server.use(restify.acceptParser(server.acceptable));
 //server.use(restify.jsonp());
 

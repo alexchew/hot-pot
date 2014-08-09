@@ -8,6 +8,7 @@ var FoodInfoSchema = new Schema({
     title : {type: String, unique: true },
     url : String,
     time :String,
+    image:{type:String,default:""},
     area :[],
     source :[],
     food :[],
