@@ -80,6 +80,7 @@ exports.put = function(req,res){
 
 exports.get = function(req,res){
     res.contentType="json";
+    logger.debug("[get]"+JSON.stringify(req.params));
     try {
         FoodInfo.findOne(req.params, function (arr, FoodInfos) {
             res.send(JSON.stringify(FoodInfos));

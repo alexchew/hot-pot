@@ -3,15 +3,17 @@
  */
 var logger = require('../log').logger;
 var mongoose = require('mongoose');
+var config = require('../config');
+
 var connected = false;//no use actually
 
 //var conn_string ='mongodb://life2:life2@ds061189.mongolab.com:61189/life2' ;
 var conn_string ='mongodb://localhost/hotpot';
-mongoose.connect(process.env.MONGO || conn_string);
+mongoose.connect(config.get('mongo'));
 
 mongoose.connection.on('open', function (ref) {
     connected=true;
-    console.log('mongo url is %s ', process.env.MONGO || conn_string);
+    console.log('mongo url is %s ', config.get('mongo'));
     logger.debug('open connection to mongo server.');
 });
 

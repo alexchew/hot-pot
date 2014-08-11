@@ -2,6 +2,7 @@ var restify = require('restify');
 //var favicon = require('static-favicon');
 var log = require('./log');
 var foodinfo = require('./routes/foodinfo');
+var config = require('./config');
 
 var ip_addr = '127.0.0.1';
 var port    =  '8080';
@@ -56,9 +57,9 @@ server.get('/', function(req, res) {
 });
 
 //now start server. for Heroku we cannot use specified PORT. Heroku will pass it through process.env.PORT
-server.listen(process.env.PORT || port ,/*ip_addr,*/ function(){
+server.listen(config.get('server.port'),/* config.get('server.ip'),*/ function(){
     console.log('%s listening at %s ', server.name , server.url);
-    console.log('%s listening at %s ', server.name , process.env.PORT || port);
+    console.log('%s listening at %s ', server.name , config.get('server.port'));
 });
 
 

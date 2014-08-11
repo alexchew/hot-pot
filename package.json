@@ -10,6 +10,7 @@
       "express": "~4.2.0",
       "mongoose": "~3.8.12",
       "restify":"~2.8.1",
+      "convict":"~0.4.2",
       "static-favicon": "~1.0.0",
       "morgan": "~1.0.0",
       "cookie-parser": "~1.0.1",
