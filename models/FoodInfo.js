@@ -14,6 +14,7 @@ var FoodInfoSchema = new Schema({
     source :[],
     food :[],
     tag :[],
+    issued:{type:Date,default:Date.now},
     created:{type:Date,default:Date.now}
 });
 var FoodInfo = mongodb.mongoose.model("FoodInfo", FoodInfoSchema);

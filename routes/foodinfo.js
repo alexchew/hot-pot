@@ -88,6 +88,8 @@ function encodeJSON(item){
 exports.post = function(req,res){
     res.contentType = 'json';
     var item = decodeJSON(req.params);
+    //parse issued date
+    item.issued = new Date(Date.parse(item.time));
     var t = new FoodInfo(item);
     logger.debug("try to save food info.[info]"+JSON.stringify(item));
     t.save(function (err, raw, numberAffected) {
@@ -215,7 +217,8 @@ exports.get2 = function(req,res){
     res.contentType = 'json';
     //res.header("Content-Type", "application/json; charset=utf-8");
     try {
-        FoodInfo.find(req.params, function (arr, items) {
+        //FoodInfo.find(req.params, function (arr, items) {
+        FoodInfo.find(req.params).sort({issued:-1}).exec( function (arr, items) {
             if (!items || items.length == 0)
                 res.send({result: 0});
             else
