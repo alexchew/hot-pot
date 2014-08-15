@@ -48,7 +48,7 @@ server.use(restify.CORS());
 /*
  FoodInfo
  */
-server.get('/foodinfo',foodinfo.get2);//查询
+server.get('/foodinfo',foodinfo.get);//查询
 server.post('/foodinfo', foodinfo.post);//新建
 
 server.get('/', function(req, res) {

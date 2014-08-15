@@ -6,6 +6,7 @@ var mongodb = require('./mongodb');
 var Schema = mongodb.mongoose.Schema;
 var FoodInfoSchema = new Schema({
     title : {type: String, unique: true },
+    code: String,
     url : String,
     time :String,
     image:{type:String,default:""},

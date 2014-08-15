@@ -8,9 +8,11 @@ var logger = require('../log').logger;
 Here we accept encodeURIComponent JSON data as input
  */
 function decodeJSON(item){
-    var encodeItem = {title:"",time:"",url:"",area:[],tag:[],food:[],source:[]};
+    //var encodeItem = {title:"",code:"",time:"",url:"",area:[],tag:[],food:[],source:[]};
+    var encodeItem = item;
     encodeItem.title = decodeURIComponent(item.title);
     encodeItem.url = decodeURIComponent(item.url);
+    encodeItem.code = item.code;
     encodeItem.time = item.time;
     var areas=[];
     for(var i in item.area){
@@ -40,9 +42,50 @@ function decodeJSON(item){
     return encodeItem;
 };
 
+function encodeJSONs(items){
+    encodeItems = [];
+    for(var i=0;i<items.length;i++)
+        encodeItems[i]=encodeJSON(items[i]);
+    return encodeItems;
+}
+
+function encodeJSON(item){
+    //var encodeItem = {code:"",title:"",time:"",url:"",area:[],tag:[],food:[],source:[]};
+    var encodeItem = item;
+    encodeItem.title = encodeURIComponent(item.title);
+    encodeItem.url = encodeURIComponent(item.url);
+    encodeItem.code = item.code;
+    encodeItem.time = item.time;
+    var areas=[];
+    for(var i in item.area){
+        areas[i]=encodeURIComponent(item.area[i]);
+    }
+    encodeItem.area = areas;
+
+    var foods=[];
+    for(var i in item.food){
+        foods[i]=encodeURIComponent(item.food[i]);
+    }
+    encodeItem.food = foods;
+
+    var sources=[];
+    for(var i in item.source){
+        sources[i]=encodeURIComponent(item.source[i]);
+    }
+    encodeItem.source = sources;
+
+    var tags=[];
+    for(var i in item.tag){
+        tags[i]=encodeURIComponent(item.tag[i]);
+    }
+    encodeItem.tag = tags;
+    logger.debug("[old]"+JSON.stringify(item));
+    logger.debug("[new]"+JSON.stringify(encodeItem));
+    return encodeItem;
+};
+
 //CRUD
 exports.post = function(req,res){
-
     res.contentType = 'json';
     var item = decodeJSON(req.params);
     var t = new FoodInfo(item);
@@ -59,31 +102,37 @@ exports.post = function(req,res){
 };
 
 exports.delete = function(req,res){
+    res.contentType = 'json';
     FoodInfo.findOneAndRemove(req.params,function (err,raw) {
         if (err) return handleError(err);
         var ret = {doc:raw};
-        res.send(JSON.stringify(ret));
+        res.send(ret);
     });
     //res.send(JSON.stringify({'success':true,"operation":"delete"}));
 };
 
 exports.put = function(req,res){
+    res.contentType = 'json';
     var cond = JSON.parse(req.params.cond);
     var obj = JSON.parse(req.params.obj);
     FoodInfo.update(cond,obj,/*{ multi: true },*/function (err, numberAffected, raw) {
         if (err) return handleError(err);
         var ret = {numberAffected:numberAffected,resp:raw};
-        res.send(JSON.stringify(ret));
+        res.send(ret);
     });
     //res.send(JSON.stringify({'success':true,"operation":"put"}));
 };
 
 exports.get = function(req,res){
     res.contentType="json";
+    //res.charset = "utf-8";
+    //res.header("Content-Type", "application/json; charset=utf-8");
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     logger.debug("[get]"+JSON.stringify(req.params));
     try {
         FoodInfo.findOne(req.params, function (arr, FoodInfos) {
-            res.send(JSON.stringify(FoodInfos));
+            logger.debug("[got foodInfo]\n"+JSON.stringify(FoodInfos));
+            res.send(encodeJSON(FoodInfos));
         });
     }catch(err) {
         res.send({'success':false,"operation":"get","error":err.message});
@@ -91,6 +140,7 @@ exports.get = function(req,res){
 };
 
 exports.patch = function(req,res){
+    res.contentType = 'json';
     //var cond = JSON.parse(req.params.cond);
     //var obj = JSON.parse(req.params.obj);
     var type = req.params.type;
@@ -104,13 +154,14 @@ exports.patch = function(req,res){
     }
 
     FoodInfo.findOneAndUpdate(cond, upd, function (arr, FoodInfo) {
-        res.send(JSON.stringify(FoodInfo));
+        res.send(FoodInfo);
     });
     //res.send(JSON.stringify({'success':true,"operation":"get"}));
 };
 
 //batch CRUD
 exports.post2 = function(req,res){
+    res.contentType = 'json';
     var count = 0;
     var saved = 0;
     var data = JSON.parse(req.params.data);
@@ -126,14 +177,15 @@ exports.post2 = function(req,res){
         count++;
     }
     var ret = {post:count,saved:saved,memo:"we cannot get total numberAffected FoodInfos"};
-    res.send(JSON.stringify(ret));
+    res.send(ret);
 };
 
 exports.delete2 = function(req,res){
+    res.contentType = 'json';
     FoodInfo.remove(req.params,function (err,numberAffected,raw) {
         if (err) return handleError(err);
         var ret = {numberAffected:numberAffected,resp:raw};
-        res.send(JSON.stringify(ret));
+        res.send(ret);
     });
     //res.send(JSON.stringify({'success':true,"operation":"batch delete"}));
 };
@@ -154,7 +206,8 @@ exports.put2 = function(req,res){
 };
 
 exports.get2 = function(req,res){
-    res.contentType = 'json';
+    //res.contentType = 'json';
+    res.header("Content-Type", "application/json; charset=utf-8");
     try {
         FoodInfo.find(req.params, function (arr, items) {
             if (!items || items.length == 0)
