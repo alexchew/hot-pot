@@ -50,6 +50,7 @@ server.use(restify.CORS());
  */
 server.get('/foodinfo',foodinfo.get);//查询
 server.post('/foodinfo', foodinfo.post);//新建
+server.put('/foodinfo',foodinfo.put);//更新
 
 server.get('/', function(req, res) {
     res.contentType = "json";

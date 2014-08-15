@@ -113,8 +113,9 @@ exports.delete = function(req,res){
 
 exports.put = function(req,res){
     res.contentType = 'json';
-    var cond = JSON.parse(req.params.cond);
-    var obj = JSON.parse(req.params.obj);
+    logger.debug("got put task.[req]"+JSON.stringify(req.params));
+    var cond = req.params.cond;
+    var obj = req.params.obj;
     FoodInfo.update(cond,obj,/*{ multi: true },*/function (err, numberAffected, raw) {
         if (err) return handleError(err);
         var ret = {numberAffected:numberAffected,resp:raw};
