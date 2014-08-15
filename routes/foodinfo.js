@@ -132,8 +132,13 @@ exports.get = function(req,res){
     logger.debug("[get]"+JSON.stringify(req.params));
     try {
         FoodInfo.findOne(req.params, function (arr, FoodInfos) {
-            logger.debug("[got foodInfo]\n"+JSON.stringify(FoodInfos));
-            res.send(encodeJSON(FoodInfos));
+            if (!FoodInfos) {
+                logger.debug("[got no FoodInfo]. cannot find any result.");
+                res.send({items:0});
+            } else {
+                logger.debug("[got foodInfo]\n" + JSON.stringify(FoodInfos));
+                res.send(encodeJSON(FoodInfos));
+            }
         });
     }catch(err) {
         res.send({'success':false,"operation":"get","error":err.message});
