@@ -212,8 +212,8 @@ exports.put2 = function(req,res){
 };
 
 exports.get2 = function(req,res){
-    //res.contentType = 'json';
-    res.header("Content-Type", "application/json; charset=utf-8");
+    res.contentType = 'json';
+    //res.header("Content-Type", "application/json; charset=utf-8");
     try {
         FoodInfo.find(req.params, function (arr, items) {
             if (!items || items.length == 0)

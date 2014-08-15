@@ -52,6 +52,8 @@ server.get('/foodinfo',foodinfo.get);//查询
 server.post('/foodinfo', foodinfo.post);//新建
 server.put('/foodinfo',foodinfo.put);//更新
 
+server.get('/foodinfos',foodinfo.get2);//批量
+
 server.get('/', function(req, res) {
     res.contentType = "json";
     res.send({success:true,message:'It works. Now you can get what you want from the Hot-Pot.Enjoy!'});
