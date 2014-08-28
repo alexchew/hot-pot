@@ -2,6 +2,8 @@ var restify = require('restify');
 //var favicon = require('static-favicon');
 var log = require('./log');
 var foodinfo = require('./routes/foodinfo');
+var myfav = require('./routes/myfav');
+var common  = require('./routes/common');
 var config = require('./config');
 
 var ip_addr = '127.0.0.1';
@@ -51,13 +53,25 @@ server.use(restify.CORS());
 server.get('/foodinfo',foodinfo.get);//查询
 server.post('/foodinfo', foodinfo.post);//新建
 server.put('/foodinfo',foodinfo.put);//更新
-
 server.get('/foodinfos',foodinfo.get2);//批量
+
+server.get('/myfav',myfav.get2);//查询
+server.post('/myfav', myfav.post);//新建
+server.del('/myfav',myfav.delete);//删除
 
 server.get('/', function(req, res) {
     res.contentType = "json";
     res.send({success:true,message:'It works. Now you can get what you want from the Hot-Pot.Enjoy!'});
 });
+
+//filter all invalid requests
+server.get(/^\/(.*)/, common.invalid);
+server.post(/^\/(.*)/, common.invalid);
+server.put(/^\/(.*)/, common.invalid);
+server.del(/^\/(.*)/, common.invalid);
+server.patch(/^\/(.*)/, common.invalid);
+//this will pass all request like http://host:port/path/to/request
+//server.get(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)/, common.invalid);
 
 //now start server. for Heroku we cannot use specified PORT. Heroku will pass it through process.env.PORT
 server.listen(config.get('server.port'),/* config.get('server.ip'),*/ function(){
