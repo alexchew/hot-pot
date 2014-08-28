@@ -8,6 +8,8 @@ var logger = require('../log').logger;
 exports.post = function(req,res){
     res.contentType = 'json';
     var item = req.params;
+    //decode title
+    item.title = decodeURIComponent(item.title);
     var t = new MyFav(item);
     logger.debug("try to save myfav info.[info]"+JSON.stringify(item));
     t.save(function (err, raw, numberAffected) {
