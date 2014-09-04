@@ -5,6 +5,7 @@ var foodinfo = require('./routes/foodinfo');
 var myfav = require('./routes/myfav');
 var common  = require('./routes/common');
 var config = require('./config');
+var solr = require('./routes/solr');
 
 var ip_addr = '127.0.0.1';
 var port    =  '8080';
@@ -58,6 +59,9 @@ server.get('/foodinfos',foodinfo.get2);//批量
 server.get('/myfav',myfav.get2);//查询
 server.post('/myfav', myfav.post);//新建
 server.del('/myfav',myfav.delete);//删除
+
+server.post('/index',solr.add);
+server.get('/index',solr.commit);//commit index
 
 server.get('/', function(req, res) {
     res.contentType = "json";
